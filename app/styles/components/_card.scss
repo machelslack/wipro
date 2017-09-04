@@ -1,0 +1,145 @@
+.card {
+  padding: 16px;
+  position: relative;
+  box-sizing: border-box;
+  background: #fff;
+  border-radius: 2px;
+  margin: 16px;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+.weather-forecast {
+  .location {
+    font-size: 1.75em;
+  }
+  .date, .description {
+    font-size: 1.25em;
+
+  @include respond-to($tablet-portrait) {
+    font-size: 0.9em;
+  }
+
+  }
+  .current {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    .icon {
+      width: 128px;
+      height: 128px;
+      @include respond-to($tablet-portrait) {
+    	width: 96px;
+        height: 96px;
+  	  }
+    }
+    .visual {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      font-size: 4em;
+      @include respond-to($tablet-portrait) {
+    	 font-size: 3em; 
+  	  }
+      .scale {
+        font-size: 0.5em;
+        vertical-align: super;
+      }
+      -webkit-box-flex: 1;
+      -webkit-flex-grow: 1;
+      -ms-flex-positive: 1;
+      flex-grow: 1;
+    }
+    .description {
+      -webkit-box-flex: 1;
+      -webkit-flex-grow: 1;
+      -ms-flex-positive: 1;
+      flex-grow: 1;
+    }
+    .sunset:before {
+      content: "Sunset: ";
+      color: #888;
+    }
+    .wind:before {
+      content: "Wind: ";
+      color: #888;
+    }
+    .sunrise:before {
+      content: "Sunrise: ";
+      color: #888;
+    }
+    .humidity:before {
+      content: "Humidity: ";
+      color: #888;
+    }
+    .pollen:before {
+      content: "Pollen Count: ";
+      color: #888;
+    }
+    .pcount:before {
+      content: "Pollen ";
+      color: #888;
+    }
+  }
+  .future {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    .oneday {
+      -webkit-box-flex: 1;
+      -webkit-flex-grow: 1;
+      -ms-flex-positive: 1;
+      flex-grow: 1;
+      text-align: center;
+      .icon {
+        width: 64px;
+        height: 64px;
+        margin-left: auto;
+        margin-right: auto;
+        @include respond-to($tablet-portrait) {
+    	 width: 32px;
+         height: 32px; 
+  	    }
+      }
+      .temp-high {
+        display: inline-block;
+      }
+      .temp-low {
+        display: inline-block;
+        color: #888;
+      }
+    }
+  }
+  .icon {
+    background-repeat: no-repeat;
+    background-size: contain;
+    &.clear-day, &.clear-night {
+      background-image: url("/images/clear.png");
+    }
+    &.rain {
+      background-image: url("/images/rain.png");
+    }
+    &.snow {
+      background-image: url("/images/snow.png");
+    }
+    &.sleet {
+      background-image: url("/images/sleet.png");
+    }
+    &.windy {
+      background-image: url("/images/wind.png");
+    }
+    &.fog {
+      background-image: url("/images/fog.png");
+    }
+    &.cloudy {
+      background-image: url("/images/cloudy.png");
+    }
+    &.partly-cloudy-day, &.partly-cloudy-night {
+      background-image: url("/images/partly-cloudy.png");
+    }
+    &.thunderstorms {
+      background-image: url("/images/thunderstorm.png");
+    }
+  }
+}

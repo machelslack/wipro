@@ -3,7 +3,7 @@
 import gulp from 'gulp';
 import browserSync from 'browser-sync';
 import gulpLoadPlugins from 'gulp-load-plugins';
-
+import webpack from 'webpack-stream';
 
 const $ = gulpLoadPlugins();
 const reload = browserSync.reload;
@@ -16,10 +16,9 @@ gulp.task('serve', ['scripts', 'styles'], () => {
     server: ['.tmp', 'app'],
     port: 3000
   });
-
   gulp.watch(['app/**/*.html'], reload);
   gulp.watch(['app/styles/**/*.{scss,css}'], ['styles', reload]);
-  gulp.watch(['app/scripts/**/*.js'], ['lint', 'scripts', reload]);
+  gulp.watch(['app/scripts/**/*.js','app/components/**/*.jsx'], ['lint', 'scripts', reload]);
   gulp.watch(['app/images/**/*'], reload);
 });
 
@@ -77,3 +76,15 @@ gulp.task('scripts', () =>
       .pipe(gulp.dest('dist/scripts'))
       .pipe(gulp.dest('.tmp/scripts'))
 );
+
+/*
+gulp.task('webpack', () =>
+  gulp.src('./app/scripts/main.js')
+    .pipe($.babel({
+      presets: ['env']
+    }))
+   .pipe(gulp.dest('dist/scripts'))
+   .pipe(gulp.dest('.tmp/scripts'))
+);*/
+
+
