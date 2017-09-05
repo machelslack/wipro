@@ -1,12 +1,15 @@
+
 (function() {
   'use strict';
 
     const app = {
+    todaysDate: new Date(),
     isLoading: true,
+    forcastData:{},
     spinner: document.querySelector('.loader'),
     cardTemplate: document.querySelector('.cardTemplate'),
     container: document.querySelector('.main'),
-    daysOfWeek: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    daysOfWeek: [ 'Sun','Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
   };
 
     app.updateForecastCard = function(data) {
@@ -32,12 +35,12 @@
     let nextDays = cardTemplate.querySelectorAll('.future .oneday');
     let today = new Date();
     today = today.getDay();
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < 5; i++) {
       let nextDay = nextDays[i];
       let daily = data.channel.item.forecast[i];
       if (daily && nextDay) {
         nextDay.querySelector('.date').textContent =
-          app.daysOfWeek[(i + today) % 7];
+          app.daysOfWeek[(i + today)];
         nextDay.querySelector('.icon').classList.add(app.getIconClass(daily.code));
         nextDay.querySelector('.temp-high .value').textContent =
           Math.round(daily.high);
@@ -155,6 +158,132 @@ app.getIconClass = function(weatherCode) {
   };
 
 
-app.updateForecastCard(initialWeatherForecast);
+app.getForcast = function(city) {
+
+
+let url = `http://api.openweathermap.org/data/2.5/forecast?q=${city}&mode=json&appid=2bd757f23ca948f1953dc3f99d6b3c57`;
+
+let xhr = new XMLHttpRequest();
+  xhr.onload = function () { 
+   
+    app.forcastData = JSON.parse(this.responseText);
+    app.decontructData(app.forcastData);
+
+  };
+
+  xhr.open('GET', url, true);
+  xhr.send();
+
+
+
+
+}
+
+
+
+app.decontructData = function (data) { const fiveDays = data.list ;
+
+let days = [] ;
+
+
+for ( let counter = 0; counter < 5 ; counter++ ) {
+    
+  let marker = app.todaysDate.getDate() + counter;
+
+  days.push(fiveDays.filter(function(element){
+ 
+  let date = new Date(element.dt_txt).getDate();
+  
+  return  date === marker ;
+    
+  }));
+      
+};
+
+app.updateForecastCard(app.initialiseForecast(days));
+
+}
+
+
+
+app.initialiseForecast = function (days) {
+
+
+
+  let forecast = [];
+
+  days.forEach(function(element,index) {
+
+  let min = 0, max = 0 , item = "" , compare = -1, current = {},weather =[] ,counts = {};
+
+  const dayArray = element;
+
+  dayArray.forEach(function(innerElement,index){
+
+  let marker = index+1;
+  
+  marker < dayArray.length ? app.todaysDate <= new Date(innerElement.dt_txt) || 
+
+  (app.todaysDate >= new Date(innerElement.dt_txt) && app.todaysDate <= new Date(dayArray[marker].dt_txt))
+
+  ?  current = innerElement : null : null;
+
+  index === 0 ? min = innerElement.main.temp_min :  
+  min = innerElement.main.temp_min <= min ? min : innerElement.main.temp_min ;
+
+  index === 0 ? max = innerElement.main.temp_max :
+  max = innerElement.main.temp_max >= max ? max : innerElement.main.temp_max ;
+
+  let code = innerElement.weather[0].icon;
+
+  counts[code] = counts[code] === undefined ?  1 :  counts[code] + 1 ;
+
+  counts[code] > compare ? (compare = counts[code] , item = {current:current, code: innerElement.weather[0].icon.replace(/[a-z]/,'') , high: max, low: min } ) : null ;
+  
+
+  });
+   
+  forecast.push(item);
+
+  });
+
+
+  const initialWeatherForecast = {
+  
+  key: app.forcastData.city.id,
+    label: app.forcastData.city.name,
+    created: new Date(),
+    channel: {
+      astronomy: {
+        sunrise: "",
+        sunset: ""
+      },
+      item: {
+        condition: {
+          text: forecast[0].current.weather[0].main,
+          date: new Date(forecast[0].current.dt_txt),
+          temp: forecast[0].current.main.temp,
+          code: forecast[0].current.weather[0].icon.replace(/[a-z]/,'')
+        },
+      forecast:forecast
+    },
+    atmosphere: {
+        humidity: forecast[0].current.main.humidity
+      },
+      wind: {
+        speed: forecast[0].current.wind.speed,
+        direction: ""
+      }
+    }
+  }
+
+return initialWeatherForecast;
+
+}
+
+
+app.getForcast('London');
+
+//, data => {app.updateForecastCard(decontructData(data));}
 
 })();
