@@ -137,5 +137,14 @@ gulp.task('default', ['clean'], cb =>
   )
 );
 
-
+//
+gulp.task('serve:dist', ['default'], () =>
+  browserSync({
+    notify: false,
+    logPrefix: 'WSK',
+    scrollElementMapping: ['main', '.mdl-layout'],
+    server: 'dist',
+    port: 3001
+  })
+);
 
