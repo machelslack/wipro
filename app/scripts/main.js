@@ -10,7 +10,7 @@
     daysOfWeek: [ 'Sun','Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
   };
 
-    app.updateForecastCard = function(data) {
+    app.updateForecastCard = (data) => {
 
     let dataLastUpdated = new Date(data.created);
     let sunrise = data.channel.astronomy.sunrise;
@@ -53,8 +53,8 @@
     }
   };
 
-app.getIconClass = function(weatherCode) {
-    // Weather codes: https://developer.yahoo.com/weather/documentation.html#codes
+app.getIconClass = (weatherCode) =>  {
+
     weatherCode = parseInt(weatherCode);
     switch (weatherCode) {
       case 25: 
@@ -118,7 +118,7 @@ app.getIconClass = function(weatherCode) {
   };
 
 
-app.getForcast = function(city) {
+app.getForcast = (city) =>{
 
 
 let url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&mode=json&appid=2bd757f23ca948f1953dc3f99d6b3c57`;
@@ -141,7 +141,7 @@ let xhr = new XMLHttpRequest();
 
 
 
-app.decontructData = function (data) { const fiveDays = data.list ;
+app.decontructData =  (data) =>{ const fiveDays = data.list ;
 
 let days = [] ;
 
@@ -166,19 +166,19 @@ app.updateForecastCard(app.initialiseForecast(days));
 
 
 
-app.initialiseForecast = function (days) {
+app.initialiseForecast =  (days) => {
 
 
 
   let forecast = [];
 
-  days.forEach(function(element,index) {
+  days.forEach((element,index) => {
 
   let min = 0, max = 0 , item = "" , compare = -1, current = {},weather =[] ,counts = {};
 
   const dayArray = element;
 
-  dayArray.forEach(function(innerElement,index){
+  dayArray.forEach((innerElement,index) =>{
 
   let marker = index+1;
   

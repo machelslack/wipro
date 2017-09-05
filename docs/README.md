@@ -23,6 +23,7 @@ There are many commands available to help you build and test sites. Here are a f
 ```sh
 $ gulp serve
 ```
+Please use gulp serve command to run my solution once you have followed the instructions in the README file.
 
 This outputs an IP address you can use to locally test and another that can be used on devices
 connected to your network.
@@ -60,3 +61,6 @@ It is important to note a difference between the `serve` and `serve:dist` tasks.
 * `serve:dist` uses the `sw-precache`-generated output and can run offline.
 
 The `serve` task runs on port 3000 and `serve:dist` runs on port 3001.
+
+
+PLEASE USE THE GULP SRVE COMMAND TO RUN MY SOLUTION ONCE YOU HAVE FINSHED READING THE CONTENTS OF THIS README FILE.
