@@ -159,7 +159,7 @@ app.getIconClass = function(weatherCode) {
 app.getForcast = function(city) {
 
 
-let url = `http://api.openweathermap.org/data/2.5/forecast?q=${city}&mode=json&appid=2bd757f23ca948f1953dc3f99d6b3c57`;
+let url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&mode=json&appid=2bd757f23ca948f1953dc3f99d6b3c57`;
 
 let xhr = new XMLHttpRequest();
   xhr.onload = function () { 
