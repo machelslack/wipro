@@ -1,6 +1,4 @@
-
-(function() {
-  'use strict';
+(function() { 'use strict';
 
     const app = {
     todaysDate: new Date(),
@@ -238,8 +236,13 @@ app.initialiseForecast = function (days) {
 
   counts[code] = counts[code] === undefined ?  1 :  counts[code] + 1 ;
 
-  counts[code] > compare ? (compare = counts[code] , item = {current:current, code: innerElement.weather[0].icon.replace(/[a-z]/,'') , high: max, low: min } ) : null ;
-  
+  counts[code] > compare ? (compare = counts[code] , 
+
+  item = {current:current, code: innerElement.weather[0].icon.replace(/[a-z]/,'') , 
+
+  high: (( max - 273.15) * 9/5) + 32 , 
+
+  low: (( min - 273.15) * 9/5) + 32 } ) : null ;
 
   });
    
@@ -262,7 +265,7 @@ app.initialiseForecast = function (days) {
         condition: {
           text: forecast[0].current.weather[0].main,
           date: new Date(forecast[0].current.dt_txt),
-          temp: forecast[0].current.main.temp,
+          temp: (( forecast[0].current.main.temp - 273.15) * 9/5) + 32,
           code: forecast[0].current.weather[0].icon.replace(/[a-z]/,'')
         },
       forecast:forecast

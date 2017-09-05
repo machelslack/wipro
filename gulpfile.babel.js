@@ -4,6 +4,8 @@ import gulp from 'gulp';
 import browserSync from 'browser-sync';
 import gulpLoadPlugins from 'gulp-load-plugins';
 import webpack from 'webpack-stream';
+import del from 'del';
+import runSequence from 'run-sequence';
 
 const $ = gulpLoadPlugins();
 const reload = browserSync.reload;
@@ -72,13 +74,68 @@ gulp.task('scripts', () =>
       .pipe(gulp.dest('.tmp/scripts'))
       .pipe($.concat('main.min.js'))
       .pipe($.uglify({preserveComments: 'some'}))
-      // Output files
       .pipe($.size({title: 'scripts'}))
       .pipe($.sourcemaps.write('.'))
       .pipe(gulp.dest('dist/scripts'))
       .pipe(gulp.dest('.tmp/scripts'))
 );
 
+
+
+gulp.task('images', () =>
+  gulp.src('app/images/**/*')
+    .pipe($.cache($.imagemin({
+      progressive: true,
+      interlaced: true
+    })))
+    .pipe(gulp.dest('dist/images'))
+    .pipe($.size({title: 'images'}))
+);
+
+
+gulp.task('copy', () =>
+  gulp.src([
+    'app/*',
+    '!app/*.html',
+    'node_modules/apache-server-configs/dist/.htaccess'
+  ], {
+    dot: true
+  }).pipe(gulp.dest('dist'))
+    .pipe($.size({title: 'copy'}))
+);
+
+gulp.task('html', () => {
+  return gulp.src('app/**/*.html')
+    .pipe($.useref({
+      searchPath: '{.tmp,app}',
+      noAssets: true
+    }))
+    .pipe($.if('*.html', $.htmlmin({
+      removeComments: true,
+      collapseWhitespace: true,
+      collapseBooleanAttributes: true,
+      removeAttributeQuotes: true,
+      removeRedundantAttributes: true,
+      removeEmptyAttributes: true,
+      removeScriptTypeAttributes: true,
+      removeStyleLinkTypeAttributes: true,
+      removeOptionalTags: true
+    })))
+    .pipe($.if('*.html', $.size({title: 'html', showFiles: true})))
+    .pipe(gulp.dest('dist'));
+});
+
+
+gulp.task('clean', () => del(['.tmp', 'dist/*', '!dist/.git'], {dot: true}));
+
+
+gulp.task('default', ['clean'], cb =>
+  runSequence(
+    'styles',
+    ['lint', 'html', 'images', 'copy','scripts'],
+    cb
+  )
+);
 
 
 
