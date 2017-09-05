@@ -62,10 +62,12 @@ gulp.task('lint', () =>
 gulp.task('scripts', () =>
     gulp.src([
       './app/scripts/main.js' 
-    ])
+      ])
       .pipe($.newer('.tmp/scripts'))
       .pipe($.sourcemaps.init())
-      .pipe($.babel())
+      .pipe($.babel({
+      presets: ['env']
+      }))
       .pipe($.sourcemaps.write())
       .pipe(gulp.dest('.tmp/scripts'))
       .pipe($.concat('main.min.js'))
@@ -77,14 +79,5 @@ gulp.task('scripts', () =>
       .pipe(gulp.dest('.tmp/scripts'))
 );
 
-/*
-gulp.task('webpack', () =>
-  gulp.src('./app/scripts/main.js')
-    .pipe($.babel({
-      presets: ['env']
-    }))
-   .pipe(gulp.dest('dist/scripts'))
-   .pipe(gulp.dest('.tmp/scripts'))
-);*/
 
 

@@ -33,8 +33,8 @@
     let today = new Date();
     today = today.getDay();
     for (let i = 0; i < 7; i++) {
-      var nextDay = nextDays[i];
-      var daily = data.channel.item.forecast[i];
+      let nextDay = nextDays[i];
+      let daily = data.channel.item.forecast[i];
       if (daily && nextDay) {
         nextDay.querySelector('.date').textContent =
           app.daysOfWeek[(i + today) % 7];
