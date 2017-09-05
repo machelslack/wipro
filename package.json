@@ -16,9 +16,9 @@
     "url": "https://github.com/machelslack/wipro/issues"
   },
   "homepage": "https://github.com/machelslack/wipro#readme",
-   "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
+  "devDependencies": {
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.1",
     "babel-preset-env": "^1.6.0",
     "babel-preset-es2016": "^6.24.1",
     "babel-preset-react": "^6.24.1",
@@ -46,7 +46,7 @@
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "run-sequence": "^2.1.0",
-    "webpack-stream": "^4.0.0"
+    "webpack-stream": "^3.2.0"
   },
   "babel": {
     "presets": [
@@ -56,6 +56,13 @@
     ]
   },
   "eslintConfig": {
-    "extends": "google"
+    "extends": "google",
+    "parserOptions": {
+          "ecmaVersion": 6
+      }
+  },
+  "dependencies": {
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
   }
 }
